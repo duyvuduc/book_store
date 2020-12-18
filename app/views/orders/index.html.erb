@@ -1,0 +1,26 @@
+<table>
+  <thead>
+    <td>Address</td>
+    <td>Total</td>
+    <td>Phone Number</td>
+    <td>Email</td>
+    <td>Customer Name</td>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.address %></td>
+        <td><%= order.total %></td>
+        <td><%= order.phone_number %></td>
+        <td><%= order.email %></td>
+        <td><%= order.customer_name %></td>
+        <td><%= link_to 'Show', order %></td>
+        <td><%= link_to 'Edit', edit_order_path(order) %></td>
+        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<%= link_to 'New Order', new_order_path %>
