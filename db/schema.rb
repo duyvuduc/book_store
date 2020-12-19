@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_17_140257) do
+ActiveRecord::Schema.define(version: 2020_12_18_124745) do
 
   create_table "book_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "book_id"
@@ -38,6 +38,16 @@ ActiveRecord::Schema.define(version: 2020_12_17_140257) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "order_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "book_id"
+    t.integer "number"
+    t.bigint "order_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["book_id"], name: "index_order_details_on_book_id"
+    t.index ["order_id"], name: "index_order_details_on_order_id"
+  end
+
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "address"
     t.integer "total"
@@ -49,4 +59,6 @@ ActiveRecord::Schema.define(version: 2020_12_17_140257) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "order_details", "books"
+  add_foreign_key "order_details", "orders"
 end

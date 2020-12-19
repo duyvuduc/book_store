@@ -1,30 +1,65 @@
-<%= form_with(model: order,local: true) do |f| %>
-    <div class="field">
-        <%= f.label :address  %>
-        <%= f.text_field :address %>
-    </div>
+<%= form_with(model: order, local: true) do |f| %>
+  <div class="field">
+    <%= f.label :address %>
+    <%= f.text_field :address %>
+  </div>
 
-    <div class="field">
-        <%= f.label :total  %>
-        <%= f.text_field :total %>
-    </div>
+  <div class="field">
+    <%= f.label :total %>
+    <%= f.text_field :total %>
+  </div>
 
-    <div class="field">
-        <%= f.label :phone_number  %>
-        <%= f.text_field :phone_number %>
-    </div>
+  <div class="field">
+    <%= f.label :phone_number %>
+    <%= f.text_field :phone_number %>
+  </div>
 
-    <div class="field">
-        <%= f.label :email  %>
-        <%= f.text_field :email %>
-    </div>
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </div>
 
-    <div class="field">
-        <%= f.label :customer_name  %>
-        <%= f.text_field :customer_name %>
-    </div>
+  <div class="field">
+    <%= f.label :customer_name %>
+    <%= f.text_field :customer_name %>
+  </div>
 
-    <div class="actions">
-        <%= f.submit %>
-    </div>
+  <div id="order-details-container">
+    <%= f.fields_for :order_details do |ff| %>
+      <div class="field">
+        <%= ff.label :book_id, class: 'book-field' %>
+        <%= ff.select :book_id, Book.all.map { |book| [book.name, book.id] }, prompt: 'Select book' %>
+
+        <%= ff.label :number %>
+        <%= ff.number_field :number %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <button type="button" id="js-btn-add">Add order detail</button>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
 <% end %>
+
+<script>
+  $(function() {
+    $("#js-btn-add").click(function() {
+      var length = $(".book-field").length
+      var options = '<%= Book.all.reduce('') { |str, book| str + "<option value='#{book.id}'>#{book.name}</option>" } %>'
+      var order_detail = '<div class="field">' +
+                           '<label class="book-field" for="order_order_details_attributes_' + length + '_book_id">Book</label>' +
+                           '<select name="order[order_details_attributes][' + length + '][book_id]" id="order_order_details_attributes_' + length + '_book_id">' +
+                             '<option value="">Select book</option>' +
+                             options.replace(/\&lt\;/g, '<').replace(/\&gt\;/g, '>').replace(/\&\#39\;/g, "") +
+                           '</select>' +
+                           '<label for="order_order_details_attributes_' + length + '_number">Number</label>' +
+                           '<input type="number" name="order[order_details_attributes][' + length + '][number]" id="order_order_details_attributes_' + length + '_number">' +
+                         '</div>'
+      $("#order-details-container").append(order_detail)
+    })
+  })
+</script>
