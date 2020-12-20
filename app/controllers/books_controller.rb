@@ -43,6 +43,11 @@ class BooksController < ApplicationController
     end
   end
 
+  def search
+    # SQL injection
+    @books = Book.where('name LIKE ?', "%#{params[:name]}%")
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book

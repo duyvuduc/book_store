@@ -2,6 +2,14 @@
 
 <h1>Books</h1>
 
+<%= form_with url: 'search' do |f| %>
+  <%= f.text_field :name, placeholder: 'Search by name' %>
+  <%= f.submit 'Find' %>
+<% end %>
+
+<br>
+<%= link_to 'Book index', books_path %>
+
 <table>
   <thead>
     <tr>
@@ -14,22 +22,7 @@
   </thead>
 
   <tbody>
-    <% @books.each do |book| %>
-      <tr>
-        <td><%= book.name %></td>
-        <td><%= book.author %></td>
-        <td><%= book.publisher %></td>
-        <td><%= book.price %></td>
-        <td>
-          <% book.categories.each do |category| %>
-            <span><%= category.name + ' ' %><span>
-          <% end %>
-        </td>
-        <td><%= link_to 'Show', book %></td>
-        <td><%= link_to 'Edit', edit_book_path(book) %></td>
-        <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+    <%= render 'books', books: @books %>
   </tbody>
 </table>
 
