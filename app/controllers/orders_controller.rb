@@ -1,6 +1,9 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:update, :edit, :show, :destroy]
   def index
+    if params[:q]
+    else
+    end
     @orders = Order.all
   end
 
@@ -13,6 +16,8 @@ class OrdersController < ApplicationController
     @order = Order.new order_params
     if @order.save
       redirect_to orders_path
+    else
+      render :new
     end
   end
 

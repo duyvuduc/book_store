@@ -1,0 +1,30 @@
+<%= form_with(model: user, local: true) do |f| %>
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :year_old %>
+    <%= f.text_field :year_old %>
+  </div>
+
+  <%= f.fields_for :addresses do |ff| %>
+    <div class="field">
+      <%= ff.label :city, class: "city_field" %>
+      <%= ff.text_field :city %>
+    </div>
+    <div class="field">
+      <%= ff.label :street %>
+      <%= ff.text_field :street %>
+    </div>
+  <% end %>
+
+  <div class="container"></div>
+
+  <button id="add-address" type="button">+ Address</button>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

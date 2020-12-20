@@ -1,7 +1,19 @@
 <%= form_with(model: order, local: true) do |f| %>
+  <% if order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+      <ul>
+        <% order.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="field">
     <%= f.label :address %>
-    <%= f.text_field :address %>
+    <%= f.text_field :address, id: 'address-field' %>
   </div>
 
   <div class="field">
@@ -61,5 +73,13 @@
                          '</div>'
       $("#order-details-container").append(order_detail)
     })
+
+
+    // $('form').submit(function(e) {
+    //   if ($('#address-field').val() == '') {
+    //     e.preventDefault();
+    //     alert('Address must be present')
+    //   }
+    // })
   })
 </script>
