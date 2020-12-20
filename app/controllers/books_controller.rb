@@ -4,7 +4,11 @@ class BooksController < ApplicationController
     # N + 1 query
     # chuong trinh chay nhanh hon
     # @books = Book.all
-    @books = Book.all.includes(:categories)
+    if params[:name]
+      @books = Book.where('name LIKE ?', "%#{params[:name]}%").includes(:categories)
+    else
+      @books = Book.all.includes(:categories)
+    end
   end
 
   def new
@@ -41,11 +45,6 @@ class BooksController < ApplicationController
     if @book.destroy
       redirect_to books_url, notice: 'Book was successfully destroyed.'
     end
-  end
-
-  def search
-    # SQL injection
-    @books = Book.where('name LIKE ?', "%#{params[:name]}%")
   end
 
   private
